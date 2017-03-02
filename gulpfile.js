@@ -1,4 +1,7 @@
 var gulp = require('gulp'),
+	csslint = require('gulp-csslint'),
+	concatcss = require('gulp-concat-css'),
+	uglifycss = require('gulp-uglifycss'),
 	jshint = require('gulp-jshint'),
 	concat = require('gulp-concat'),
 	uglify = require('gulp-uglify'),
@@ -10,9 +13,14 @@ gulp.task('scripts', ['js:hint', 'js:concat', 'js:uglify']);
 
 var path = {
 	js: {
-		src: 'src/*.js',
+		src: 'src/js/*.js',
 		dest: 'dist/',
 		filename: 'combine.js'
+	},
+	css:{
+		src: "src/css/style.css",
+		dest:'dist/css/',
+		filename:'style.css'
 	}
 }
 
@@ -40,4 +48,20 @@ gulp.task('js:uglify', function(){
 		.pipe(uglify())
 		.pipe(rename({suffix:'.min'}))
 		.pipe(gulp.dest(path.js.dest));
+})
+
+gulp.task('styles', function(){
+	gulp.src(path.css.src)
+		//문법검사
+		.pipe(csslint({'import':false}))
+		.pipe(csslint.formatter())
+
+		//압축하지 않은파일
+		.pipe(concatcss(path.css.filename))
+		.pipe(gulp.dest(path.css.dest))
+
+		//압축파일
+		.pipe(uglifycss())
+		.pipe(rename({suffix:'.min'}))
+		.pipe(gulp.dest(path.css.dest))
 })
