@@ -1,0 +1,18 @@
+{
+	"lint" : true,
+	"concat" : true,
+	"uglify" : true,
+	"rename" : true,
+    "path" : {
+    	"js": {
+    		"src": "src/js/*.js",
+    		"dest": "dist/",
+    		"filename": "combine.js"
+    	},
+    	"css":{
+    		"src": "src/css/style.css",
+    		"dest":"dist/css/",
+    		"filename":"style.css"
+    	}
+    }
+}
